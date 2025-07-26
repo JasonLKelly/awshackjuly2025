@@ -1,12 +1,21 @@
 # Ad Optimization Agent
 
-Today, when brand advertisers try to optimize their campaigns, they're stuck with a ton of manual work.  
+Today, when brand advertisers try to optimize their campaigns, they're stuck with a ton of manual work. This system provides an integrated solution for ad campaign simulation, data collection, and optimization.
+
+## System Architecture
+
+The system consists of three main components that work together:
+
+1. **Ad Simulator** (`ad-simulator/`) - React web app that generates ad impressions
+2. **Agent UX** (`agent-ux/`) - Conversational interface for campaign setup and optimization  
+3. **ClickHouse Database** - Docker container for data storage and analytics
+4. **Kafka Integration** - Confluent Cloud for real-time data streaming
 
 ## Components
 
 ### Ad Viewer Simulator
 
-A high-scale ad impression simulator. It's a front-end-only web app that can run from localhost. Given a set of ad impression parameters, it creates a random sample of ad impressions. Each simulated impression is sent to a URL with query parameters describing the impression.
+A high-scale ad impression simulator built as a React web application. It generates realistic ad impressions based on configurable parameters and sends them to Kafka for processing.
 
 Impression information:
 
@@ -44,35 +53,41 @@ Operation:
 * The webapp shows a log of all impressions being sent.  
 * The webapp shows a total count of impressions sent in this session.  When the user clicks Start, the impression count is reset to 0.
 
-### Impression Collector
+### Kafka Integration (Confluent Cloud)
 
-* Confluence Cloud instance 
-* It provides a Kafka instance with a URL to give to the simulator.
-* Data is streamed into a ClickHouse database.
+* Real-time streaming platform for impression data
+* Receives impression events from the ad simulator via HTTP proxy
+* Streams data into ClickHouse for analytics and optimization
 
 ### ClickHouse Database
 
-### Optimization Agent
+* Dockerized analytics database for impression storage and querying
+* Kafka consumer automatically ingests streaming impression data
+* Supports real-time analytics for campaign optimization
+* Accessible via HTTP interface on port 8123
 
-I want to implement an agent that asks for data about an ad campaign, and then continually looks for   It should be able to do a conversation like this:
+### Agent UX (Rokko)
 
-Agent: Hi, I'm Rokko! I can help you optimize your ad campaign. Can you tell me a bit about your campaign?  First, What's the campaign name?
+Rokko is a conversational AI agent that helps advertisers set up and optimize their campaigns through natural language interaction. The agent collects campaign details through a chat interface, including campaign name, target audience, budget, and goals. Once setup is complete, Rokko monitors campaign performance using real-time data from ClickHouse and proactively suggests optimizations based on performance metrics.
 
+**Key Features:**
+- **Campaign Setup**: Guides users through campaign configuration via conversation
+- **Performance Monitoring**: Analyzes impression data to identify underperforming segments  
+- **Optimization Suggestions**: Recommends parameter adjustments (audience targeting, creative weights, etc.)
+- **Real-time Updates**: Applies approved changes to the shared campaign configuration
+- **Data Integration**: Connects campaign setup with live impression analytics
+
+**Example Interaction:**
+```
+Rokko: Hi, I'm Rokko! I can help you optimize your ad campaign. What's your campaign name?
 User: Oreo Q3 2025
+Rokko: Great! What's your most valuable target audience?
+User: Women age 35-50
+Rokko: Perfect. I'll monitor your campaign and suggest improvements based on performance data.
 
-Agent: Thanks. What is the most valuable target audience?
-
-User: Women age 35-50.
-
-Agent: Great. I'll start watching the campaign and report back to you on how it's doing.
-
-[1 minutes later]
-
-Agent: 🔔 Hey, your campaign is underperforming with Women age 35-50.    Let's try something to improve it!  I could increase spending on this demographic.  Want to do it?
-
-User: Yes.
-
-Agent: OK, I've made that change. I'll monitor the ad performance and let you know how it's going.
+[Later, after analyzing data]
+Rokko: 🔔 Your campaign is underperforming with women age 35-50. I suggest increasing their targeting weight from 70% to 85%. Approve this change?
+```
 
 ## Campaign Configuration Storage
 
@@ -151,3 +166,83 @@ The system uses a shared JSON configuration file approach to coordinate between 
 5. **Live Apply**: Running simulations automatically update their behavior
 
 This approach provides real-time configuration updates with zero infrastructure overhead, perfect for local development and hackathon scenarios.
+
+## System Launch Instructions
+
+### Prerequisites
+- Node.js (v16+)
+- Docker Desktop
+- Confluent Cloud API credentials
+
+### 1. Start ClickHouse Database
+```bash
+# Start ClickHouse container
+docker run -d \
+  --name clickhouse-server \
+  -p 8123:8123 -p 9000:9000 \
+  clickhouse/clickhouse-server:latest
+
+# Initialize database schema
+cd ad-simulator
+docker exec -i clickhouse-server clickhouse-client --multiquery < setup-clickhouse.sql
+
+# Update Kafka connection with your credentials
+# Edit kafka-new-credentials.sql with your API key/secret, then run:
+docker exec -i clickhouse-server clickhouse-client --multiquery < kafka-new-credentials.sql
+```
+
+### 2. Launch Ad Simulator
+```bash
+cd ad-simulator
+
+# Create .env file with your Confluent Cloud credentials
+cp .env.example .env
+# Edit .env and add your CONFLUENT_API_KEY and CONFLUENT_API_SECRET
+
+# Install dependencies and start all services
+npm install
+npm run dev
+```
+
+This starts:
+- **Config Server** (port 3003) - Serves shared campaign configuration
+- **Proxy Server** (port 3001) - Routes impressions to Kafka
+- **React App** (port 3000) - Ad simulator web interface
+
+### 3. Launch Agent UX
+```bash
+cd agent-ux/backend
+
+# Create .env file with AWS credentials for Bedrock
+cp .env.example .env
+# Edit .env and add your AWS credentials
+
+# Install and start backend
+npm install
+npm start   # Runs on port 3002
+
+# In another terminal, start frontend
+cd agent-ux/frontend
+npm install
+npm start   # Runs on port 3001 (or next available)
+```
+
+### 4. Verify System Operation
+
+**Check ClickHouse Connection:**
+```bash
+# Verify impressions are being received
+docker exec clickhouse-server clickhouse-client -q "SELECT count(*) FROM ad_analytics.impressions_local"
+```
+
+**Access Points:**
+- Ad Simulator: http://localhost:3000
+- Agent UX: http://localhost:3001 (or assigned port)
+- ClickHouse: http://localhost:8123
+- Config API: http://localhost:3003/api/campaign-config
+
+### 5. Test Data Flow
+1. Start impression generation in Ad Simulator
+2. Verify data appears in ClickHouse
+3. Use Agent UX to interact with campaign data
+4. Observe real-time configuration updates between components
