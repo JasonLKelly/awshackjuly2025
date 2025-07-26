@@ -10,3 +10,8 @@ These files contain important context about the project structure, components, a
 
 ## Server Management
 Don't start servers. Just tell me to restart or start servers and give me the steps.
+
+## Memorization Protocol
+- Always memorize key instructions and project-specific guidelines
+- Review and update memories as the project evolves
+- Keep memories concise and action-oriented
