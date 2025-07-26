@@ -1,5 +1,3 @@
-![Rokko](rokko.png)
-
 # Ad Optimization Agent
 
 Today, when brand advertisers try to optimize their campaigns, they're stuck with a ton of manual work. This system provides an integrated solution for ad campaign simulation, data collection, and optimization.
@@ -12,6 +10,8 @@ The system consists of three main components that work together:
 2. **Agent UX** (`agent-ux/`) - Conversational interface for campaign setup and optimization  
 3. **ClickHouse Database** - Docker container for data storage and analytics
 4. **Kafka Integration** - Confluent Cloud for real-time data streaming
+
+![Rokko](rokko.png)
 
 ## Components
 
