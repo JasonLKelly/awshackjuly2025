@@ -1,0 +1,44 @@
+{
+  "campaignName": "Oreo",
+  "impressionsPerSecond": 10,
+  "testMode": false,
+  "parameters": {
+    "deviceType": {
+      "mobile": 59,
+      "desktop": 30,
+      "tablet": 10
+    },
+    "location": {
+      "New York": 25,
+      "Los Angeles": 20,
+      "Chicago": 15,
+      "Houston": 10,
+      "Other": 30
+    },
+    "browser": {
+      "Chrome": 60,
+      "Firefox": 20,
+      "Safari": 15,
+      "Edge": 5
+    },
+    "gender": {
+      "male": 70,
+      "female": 25,
+      "other": 5
+    },
+    "age": {
+      "min": 35,
+      "max": 45
+    },
+    "creatives": {
+      "c1.png": 8,
+      "c2.png": 4,
+      "c3.png": 4,
+      "c4.png": 12,
+      "c5.png": 20
+    }
+  },
+  "lastUpdatedBy": "rokko-optimizer",
+  "lastUpdated": "2025-07-26T02:47:24.898Z",
+  "version": 26
+}

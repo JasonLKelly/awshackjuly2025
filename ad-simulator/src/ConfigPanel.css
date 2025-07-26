@@ -1,0 +1,63 @@
+.config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.config-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.refresh-button, .save-button {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.refresh-button {
+  background: #007bff;
+  color: white;
+}
+
+.refresh-button:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.save-button {
+  background: #28a745;
+  color: white;
+}
+
+.save-button:hover:not(:disabled) {
+  background: #1e7e34;
+}
+
+.refresh-button:disabled, .save-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.config-notice {
+  background: #e3f2fd;
+  border: 1px solid #2196f3;
+  border-radius: 4px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.config-notice p {
+  margin: 0;
+  color: #1976d2;
+  font-size: 0.9rem;
+}
+
+.config-shared {
+  color: #28a745;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  font-style: italic;
+}

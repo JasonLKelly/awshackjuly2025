@@ -1,0 +1,306 @@
+.App {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.App-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.App-header h1 {
+  color: #333;
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.config-status {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.config-indicator.shared {
+  color: #28a745;
+}
+
+.config-indicator.local {
+  color: #6c757d;
+}
+
+.App-main {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.config-section {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logger-section {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.config-panel h2 {
+  margin-top: 0;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+}
+
+.config-group {
+  margin-bottom: 30px;
+}
+
+.config-group h3 {
+  color: #555;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.parameter-group {
+  margin-bottom: 20px;
+}
+
+.parameter-group h4 {
+  color: #666;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group.inline {
+  display: inline-block;
+  margin-right: 15px;
+  margin-bottom: 8px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group.inline label {
+  display: inline-block;
+  width: 80px;
+  margin-right: 8px;
+  margin-bottom: 0;
+}
+
+.form-group input[type="number"],
+.form-group input[type="url"] {
+  width: 100%;
+  max-width: 200px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group.inline input[type="number"] {
+  width: 60px;
+}
+
+.form-group input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.control-buttons {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.start-button,
+.stop-button {
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.start-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.start-button:hover {
+  background-color: #218838;
+}
+
+.stop-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.stop-button:hover {
+  background-color: #c82333;
+}
+
+.impression-logger h2 {
+  margin-top: 0;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+}
+
+.logger-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.status-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status.running {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status.stopped {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.count {
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+}
+
+.log-container {
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #fafafa;
+}
+
+.no-impressions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+  font-style: italic;
+}
+
+.impression-list {
+  padding: 10px;
+}
+
+.impression-item {
+  background: white;
+  margin-bottom: 8px;
+  padding: 10px;
+  border-radius: 4px;
+  border-left: 3px solid #007bff;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 12px;
+}
+
+.impression-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.creative-thumbnail {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+}
+
+.thumbnail-image {
+  max-width: 48px;
+  max-height: 48px;
+  object-fit: contain;
+  border-radius: 3px;
+}
+
+.thumbnail-fallback {
+  font-size: 10px;
+  color: #666;
+  text-align: center;
+  padding: 2px;
+}
+
+.impression-summary {
+  color: #333;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.impression-details {
+  margin-top: 8px;
+}
+
+.impression-details summary {
+  cursor: pointer;
+  color: #007bff;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+.impression-details pre {
+  background-color: #f8f9fa;
+  padding: 8px;
+  border-radius: 3px;
+  font-size: 10px;
+  overflow-x: auto;
+  margin: 0;
+}
+
+.log-footer {
+  margin-top: 10px;
+  text-align: center;
+  color: #666;
+}
+
+@media (max-width: 1024px) {
+  .App-main {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .config-section,
+  .logger-section {
+    padding: 20px;
+  }
+}
